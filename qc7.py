@@ -46,11 +46,10 @@ def analyze_and_visualize_circuit(qubits):
     state_circ.cx(q[1], q[2])
 
     # Simulate the statevector
-    simulator = AerSimulator()
-    transpiled_circuit = transpile(state_circ, simulator)
-    job = simulator.run(transpiled_circuit)
-    result = job.result()
-    statevector = result.get_statevector()
+    circuit_no_measure = circ.remove_final_measurements(inplace=False)
+    
+    statevector = Statevector.from_instruction(circuit_no_measure)
+    
 
     # Print the statevector in matrix form
     print("\nStatevector (Matrix Form):")
