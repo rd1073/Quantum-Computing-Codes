@@ -7,14 +7,18 @@ from qiskit_aer import AerSimulator
 import matplotlib.pyplot as plt
 
 
-def create_bell_state_circuit():
-    q = QuantumRegister(2, 'q')
-    c = ClassicalRegister(2, 'c')
+def create_bell_state_circuit(qubits):
+    q = QuantumRegister(qubits, 'q')
+    c = ClassicalRegister(qubits, 'c')
     circ = QuantumCircuit(q, c)
 
     # Create a Bell state
-    circ.h(q[0])  # Apply Hadamard gate on q[0]
+    for i in range(qubits):
+        circ.h(q[i])
+    #circ.h(q[0])  # Apply Hadamard gate on q[0]
     circ.cx(q[0], q[1])  # Apply CNOT gate on q[0] and q[1]
+    circ.cx(q[1], q[2])  # Apply CNOT gate on q[0] and q[1]
+
 
     circ.measure(q, c)
     
@@ -53,7 +57,8 @@ def analyze_circuit(circuit):
     print(f"Number of two-qubit gates: {two_qubit_gates}")
 
 
-bell_circuit = create_bell_state_circuit()
+qubits=2
+bell_circuit = create_bell_state_circuit(qubits)
 print("Bell State Quantum Circuit:")
 print(bell_circuit)
 
